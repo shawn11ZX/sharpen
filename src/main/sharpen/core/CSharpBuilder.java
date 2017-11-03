@@ -2523,8 +2523,43 @@ public class CSharpBuilder extends ASTVisitor {
 	 * string[2], new string[2], new string[2] }, new string[][] { new
 	 * string[2], new string[2], new string[2] } }"
 	 */
-	private CSArrayCreationExpression unfoldMultiArrayCreation(ArrayCreation node) {
-		return unfoldMultiArray((ArrayType) node.getType().getComponentType(), node.dimensions(), 0);
+	private CSExpression unfoldMultiArrayCreation(ArrayCreation node) {
+		boolean allDimsConst = true;
+		for (int i = 0; i < node.dimensions().size() - 1; ++i)
+		{
+			if (getConstantDimensionExpression(node.dimensions().get(i)) == null)
+			{
+				allDimsConst = false;
+				break;
+			}
+		}
+		if (allDimsConst)
+		{
+			return unfoldMultiArray((ArrayType) node.getType().getComponentType(), node.dimensions(), 0);
+		}
+		else
+		{
+			return createMultiArray(node);
+		}
+	}
+
+	private CSExpression createMultiArray(ArrayCreation node) {
+		Type type = node.getType().getElementType();
+		String statement = String.format("Arrays.Create<%s>(%s", mappedTypeReference(type), node.dimensions().get(0));
+		for (int i = 1; i < node.dimensions().size(); ++i)
+		{
+			statement = String.format("%s, %s",statement, node.dimensions().get(i));
+		}
+		statement = statement.concat(")");
+		return new CSStringLiteralExpression(statement);
+	}
+
+	private Object getConstantDimensionExpression(Object expression) {
+		return ((Expression) expression).resolveConstantExpressionValue();
+	}
+
+	private int resolveIntValue(Object expression) {
+		return ((Number) getConstantDimensionExpression(expression)).intValue();
 	}
 
 	private CSArrayCreationExpression unfoldMultiArray(ArrayType type, List dimensions, int dimensionIndex) {
@@ -2551,9 +2586,9 @@ public class CSharpBuilder extends ASTVisitor {
 		return dimensions.size() - 1;
 	}
 
-	private int resolveIntValue(Object expression) {
-		return ((Number) ((Expression) expression).resolveConstantExpressionValue()).intValue();
-	}
+//	private int resolveIntValue(Object expression) {
+//		return ((Number) ((Expression) expression).resolveConstantExpressionValue()).intValue();
+//	}
 
 	private CSArrayCreationExpression mapSingleArrayCreation(ArrayCreation node) {
 		CSArrayCreationExpression expression = new CSArrayCreationExpression(mappedTypeReference(componentType(node

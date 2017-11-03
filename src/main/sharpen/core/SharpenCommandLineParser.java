@@ -73,7 +73,6 @@ class SharpenCommandLineParser extends CommandLineParser {
 			
 			_cmdLine.project = projectName;
 			_cmdLine.projectPath = projectPath;
-			_cmdLine.sourceFolders.add(srcFolder);
 		} else {
 			_cmdLine.project = arg;
 		}
