@@ -124,6 +124,7 @@ public abstract class Configuration {
 	 */
 	private Map<String, String> _conditionalCompilations = new HashMap<String, String>();
 
+	private boolean _mapIteratorToEnumerator;
 
 	public Configuration(String runtimeTypeName) {
 		
@@ -572,7 +573,11 @@ public abstract class Configuration {
 	}
 
 	public boolean mapIteratorToEnumerator() {
-		return true;
+		return _mapIteratorToEnumerator;
+	}
+
+	public void mapIteratorToEnumerator(boolean _mapIteratorToEnumerator) {
+		this._mapIteratorToEnumerator = _mapIteratorToEnumerator;
 	}
 
 	public abstract boolean mapByteToSbyte();

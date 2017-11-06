@@ -86,6 +86,9 @@ class SharpenCommandLineParser extends CommandLineParser {
 			_cmdLine.pascalCase = SharpenCommandLine.PascalCaseOptions.NamespaceAndIdentifiers;			 
 		} else if (areEqual(arg, "-cp")) {
 			_cmdLine.classpath.add(consumeNext());
+		}
+		else if (areEqual(arg, "-targetFolder")) {
+			_cmdLine.targetFolder = consumeNext();
 		} else if (areEqual(arg, "-srcFolder")) {
 			_cmdLine.sourceFolders.add(consumeNext());
 		} else if (areEqual(arg, "-paramCountFileNames")) {
@@ -151,7 +154,11 @@ class SharpenCommandLineParser extends CommandLineParser {
 			_cmdLine.sharpenNamespace = consumeNext();	
 		} else if (areEqual(arg, "-help")) {
 			_cmdLine.help = true;		
-		} else {
+		} else if (areEqual(arg, "-mapIteratorToEnumerator"))
+		{
+			_cmdLine.mapIteratorToEnumerator = true;
+		}
+		else {
 			_cmdLine.help = true;
 		}
 	}

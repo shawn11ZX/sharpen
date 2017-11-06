@@ -147,7 +147,7 @@ public class SharpenApplication {
 
 	private String deleteTargetProject(JavaProjectCmd project) throws IOException 
 	{
-		String target = project.getProjectPath() + "/" + project.getProjectName() + SharpenConstants.SHARPENED_PROJECT_SUFFIX;
+		String target = project.getProjectPath() + "/" + project.getTargetFolder();
 		File targetfile = new File(target);
 		if (targetfile.exists()) {
 			delete(targetfile);
@@ -213,6 +213,10 @@ public class SharpenApplication {
 			ods("Sharpen namespace: " + _args.sharpenNamespace);
 			configuration.setSharpenNamespace(_args.sharpenNamespace);
 		}
+		if (_args.mapIteratorToEnumerator)
+		{
+			configuration.mapIteratorToEnumerator(true);
+		}
 		if (_args.headerFile != null) {
 			ods("Header file: " + _args.headerFile);
 			configuration.setHeader(IO.readFile(new File(_args.headerFile)));
@@ -257,6 +261,7 @@ public class SharpenApplication {
 	JavaProjectCmd setUpJavaProject() throws CoreException {
 		ods("project: " + _args.project);
 		JavaProjectCmd jpCmd = new JavaProjectCmd();
+		jpCmd.setTargetFolder(_args.targetFolder);
 		jpCmd.setProjectName(_args.project);
 		jpCmd.setProjectPath(_args.projectPath);
 		jpCmd.setSourceFolders(_args.sourceFolders);

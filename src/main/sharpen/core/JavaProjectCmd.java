@@ -14,9 +14,19 @@ public class JavaProjectCmd {
 	private String projectName;
 	private List<String> sourceFolders;
 	private String projectPath;
+	private String targetFolder;
 	private List<String> classPath = new ArrayList<String>();
-	
-	
+
+	public String getTargetFolder() {
+		if (targetFolder == null)
+		{
+			return getProjectName() + SharpenConstants.SHARPENED_PROJECT_SUFFIX;
+		}
+		else {
+			return targetFolder;
+		}
+	}
+
 	public JavaProjectCmd(String args)
 	{
 		sourceFolders = new ArrayList<String>();
@@ -139,5 +149,9 @@ public class JavaProjectCmd {
 					e.printStackTrace();
 				}
 			}		
+	}
+
+	public void setTargetFolder(String targetFolder) {
+		this.targetFolder = targetFolder;
 	}
 }
