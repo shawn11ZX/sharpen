@@ -280,6 +280,9 @@ public class MappingsImpl implements Mappings {
 		String name = isNameMapping(mapping)
 			? mapping.name
 			: binding.getName();
+		if (_configuration.isIgnoredCasePascal(binding.getDeclaringClass().getPackage().getName()))
+			return name;
+
 		return methodName(name);
 	}
 	

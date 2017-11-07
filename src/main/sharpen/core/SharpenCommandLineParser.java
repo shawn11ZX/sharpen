@@ -157,6 +157,9 @@ class SharpenCommandLineParser extends CommandLineParser {
 		} else if (areEqual(arg, "-mapIteratorToEnumerator"))
 		{
 			_cmdLine.mapIteratorToEnumerator = true;
+		} else if (areEqual(arg, "-ignoreCasePascal"))
+		{
+			_cmdLine.ignoreCasePascal.add(consumeNext());
 		}
 		else {
 			_cmdLine.help = true;

@@ -27,6 +27,10 @@ import java.util.*;
 
 public abstract class Configuration {
 
+	public boolean isIgnoredCasePascal(String name) {
+		return _ignoreCasePascal.contains(name);
+	}
+
 	public static class MemberMapping {
 		public String name;
 		public MemberKind kind;
@@ -117,7 +121,8 @@ public abstract class Configuration {
 	private final Map<String, String> _mappedEvents = new HashMap<String, String>();
 	
 	private List<String> _partialTypes = new ArrayList<String>();
-	
+
+	private List<String> _ignoreCasePascal = new ArrayList<String>();
 	/**
 	 * Maps package names to expressions used in conditional compilation. 
 	 * Sub-packages will be considered to match also. 
@@ -335,7 +340,10 @@ public abstract class Configuration {
 	public void mapMembers(Map<String, MemberMapping> memberMappings) {
 		_memberMappings.putAll(memberMappings);
 	}
-	
+
+	public void ignoreCasePascal(List<String> ignoreCasePascal) {
+		_ignoreCasePascal.addAll(ignoreCasePascal);
+	}
 	public String mappedNamespace(String namespace) {
 		String mapped = applyNamespaceMappings(namespace + ".");
 		return _namingStrategy.namespace(mapped.substring(0, mapped.length()-1));

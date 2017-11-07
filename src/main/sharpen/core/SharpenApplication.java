@@ -229,6 +229,7 @@ public class SharpenApplication {
 		configuration.mapEvents(_args.eventMappings);
 		configuration.mapNamespaces(_args.namespaceMappings);
 		configuration.mapMembers(_args.memberMappings);
+		configuration.ignoreCasePascal(_args.ignoreCasePascal);
 		configuration.conditionalCompilation(_args.conditionalCompilation);
 		
 		for (String fullyQualifiedType : _args.fullyQualifiedTypes) {
